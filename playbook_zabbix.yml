@@ -27,6 +27,7 @@
 
     - name: installe mysql-community
       shell: rpm -ivh mysql-community-release-el7-5.noarch.rpm
+      ignore_errors: yes
       args:
         warn: no
 
@@ -35,7 +36,7 @@
         name: '*'
         state: installed
 
-    - name: mysql-server
+    - name: Install mysql-server
       yum:
         name: mysql-server 
         state: installed

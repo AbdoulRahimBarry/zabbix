@@ -3,14 +3,9 @@
 
 - name: Add paquet Zabbix
   yum:
-    name: rpm -ivh https://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
+    name: https://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
     state: installed 
 
-- name: Install requirement
-  yum:
-    name: yum-config-manager --enable rhel-7-server-optional-rpms
-    state: installed 
- 
 - name: install Zabbix server-mysql
   yum:
     name: zabbix-server-mysql
@@ -23,7 +18,7 @@
 
 - name: Import data with zabbix-server in mysql-db
   shell: zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uzabbix -p zabbix
-  #ignore_errors: yes
+  ignore_errors: yes
   args:
     warn: no
 
