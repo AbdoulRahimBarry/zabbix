@@ -1,0 +1,49 @@
+- name: Deploy zabbix server
+  hosts: localhost
+  gather_facts: true
+  become: true
+
+  pre_tasks:
+    - name: upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+        exclude: kernel*,foo*
+
+    - name: epel-release
+      yum:
+        name: epel-release
+        state: installed
+
+    - name: install wget
+      yum:
+        name: wget
+        state: installed
+
+    - name: repo.mysql.com/mysql-community
+      shell: wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+      args:
+        warn: no
+
+    - name: installe mysql-community
+      shell: rpm -ivh mysql-community-release-el7-5.noarch.rpm
+      args:
+        warn: no
+
+    - name: upgrade all packages 
+      yum:
+        name: '*'
+        state: installed
+
+    - name: mysql-server
+      yum:
+        name: mysql-server 
+        state: installed
+
+    - name: Start service mysql-server
+      service:
+        name: mysqld
+        state: started
+
+  roles:
+     - role: zabbix
